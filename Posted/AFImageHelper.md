@@ -147,3 +147,185 @@ extension UIImage {
 至于CGImageAlphaInfo，贴张图：根据这个很容易就知道为什么作者在这里使用了  
 `case .first, .last, .premultipliedFirst`
 ![](http://7xk67j.com1.z0.glb.clouddn.com/CGImageAlphaInfo.jpg)
+#### 关于图片剪裁(image crop)
+##### `func crop(bounds: CGRect) -> UIImage?`
+直接使用了系统CGImage提供的方法cropping:, 指定其bounds，scale 和 orientation 参数即可。
+具体代码如下：
+```Swift
+func crop(bounds: CGRect) -> UIImage? {
+    return UIImage(cgImage: (self.cgImage?.cropping(to: bounds)!)!, scale: 0.0, orientation: self.imageOrientation)
+}
+```
+##### `func cropToSquare() -> UIImage?`
+该方法从名字就可以看出来， 这是为了获取到Square形状的剪裁图片，但是假如一张图片原图就不是Square的，那么获取的时候就需要剪裁了，作者在这里只是选择了长和宽中短的那个作为最后的边长，而确定了边长，位置也取了中间位置。
+具体代码如下：
+```Swift
+func cropToSquare() -> UIImage? {
+    let size = CGSize(width: self.size.width * self.scale, height: self.size.height * self.scale)
+    let shortest = min(size.width, size.height)
+        
+    let left: CGFloat = (size.width > shortest) ? (size.width - shortest) / 2 : 0
+    let top: CGFloat = (size.height > shortest) ? (size.height - shortest) / 2 : 0
+        
+    let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+    let insetRect = rect.insetBy(dx: left, dy: top)
+        
+    return crop(bounds: insetRect)
+}
+```
+
+#### 关于图片Resize
+顾名思义，resize image表示改变image的size，也就是长和宽。要是不看源码，让我去猜测怎么实现的话，我一定会猜到Quartz 2D绘制。没错，作者在这里也就是使用了这个。具体步骤如下：
+1. 根据你需要的contentMode计算出需要改变的比例
+2. 创建CGContext, 包含了一些配置相关的，具体可以去看Apple官方的描述
+3. 将该图片绘制在context上，具体使用了`func draw(_ image: CGImage, in rect: CGRect, byTiling: Bool = default)`方法。rect可以来控制size大小
+
+相关代码实现如下：
+```Swift
+func resize(toSize: CGSize, contentMode: UIImageContentMode = .scaleToFill) -> UIImage? {
+    let horizontalRatio = size.width / self.size.width;
+    let verticalRatio = size.height / self.size.height;
+    var ratio: CGFloat!
+        
+    switch contentMode {
+        case .scaleToFill:
+            ratio = 1
+        case .scaleAspectFill:
+            ratio = max(horizontalRatio, verticalRatio)
+        case .scaleAspectFit:
+            ratio = min(horizontalRatio, verticalRatio)
+    }
+        
+    let rect = CGRect(x: 0, y: 0, width: size.width * ratio, height: size.height * ratio)
+        
+    // Fix for a colorspace / transparency issue that affects some types of
+    // images. See here: http://vocaro.com/trevor/blog/2009/10/12/resize-a-uiimage-the-right-way/comment-page-2/#comment-39951
+        
+    let colorSpace = CGColorSpaceCreateDeviceRGB()
+    let context = CGContext(data: nil, width: Int(rect.size.width), height: Int(rect.size.height), bitsPerComponent: 8, bytesPerRow: 0, space: colorSpace, bitmapInfo: bitmapInfo.rawValue)
+    let bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)
+        
+    let transform = CGAffineTransform.identity
+        
+    // Rotate and/or flip the image if required by its orientation
+        context?.concatenate(transform);
+    // Set the quality level to use when rescaling
+    context!.interpolationQuality = CGInterpolationQuality(rawValue: 3)!
+        
+    //CGContextSetInterpolationQuality(context, CGInterpolationQuality(kCGInterpolationHigh.value))
+        
+    // Draw into the context; this scales the image
+    guard let image = cgImage else {
+        return nil
+    }
+    context?.draw(image, in: rect)
+        
+        // Get the resized image from the context and a UIImage
+    if let _cgImage = context?.makeImage() {
+        return UIImage(cgImage: _cgImage, scale: self.scale, orientation: self.imageOrientation)
+    }
+    return nil
+}
+```
+#### 给图片(非view)添加Corner Radius
+我之前还真没想到过给image添加Corner Radius，每回都是直接给view添加Corner Radius。不过我觉得肯定和Quartz 2D绘制有关。作者在这里提供了四种不同情况，在这里只解释第一种，其他三种也是基于这一种的，直接看步骤吧。
+1. 准备bitmap context相关的参数
+2. 创建bitmap context, 在这里创建的context需要用到bitmapInfo参数，具体bitmapInfo是干什么用的呢？或者还有bitmap图片是什么呢？如果明白了这些就知道了作者为啥在这个方法之前先调用了`applyAlpha()`方法。
+3. 创建相关绘制路径，然后获取图片并返回
+
+> CGBitmapInfo：Component information for a bitmap image.  
+> BitmapImage: [![](http://7xk67j.com1.z0.glb.clouddn.com/IMG_0816.JPG)](http://etc.usf.edu/techease/win/images/what-is-the-difference-between-bitmap-and-vector-images/)
+具体代码如下：(实现起来也不是很复杂，如果自己真的写不出来，也是一种学习的思路)
+```swift
+func roundCorners(cornerRadius: CGFloat) -> UIImage? {
+        // If the image does not have an alpha layer, add one
+        guard let imageWithAlpha = applyAlpha() else {
+            return nil
+        }
+        guard let _cgImage = imageWithAlpha.cgImage else {
+            return nil
+        }
+        UIGraphicsBeginImageContextWithOptions(size, false, 0)
+        let width = _cgImage.width
+        let height = _cgImage.height
+        let bits = _cgImage.bitsPerComponent
+        guard let colorSpace = _cgImage.colorSpace else {
+            return nil
+        }
+        let bitmapInfo = _cgImage.bitmapInfo
+
+        let context = CGContext(data: nil, width: width, height: height, bitsPerComponent: bits, bytesPerRow: 0, space: colorSpace, bitmapInfo: bitmapInfo.rawValue)
+        let rect = CGRect(x: 0, y: 0, width: CGFloat(width)*scale, height: CGFloat(height)*scale)
+        
+        context?.beginPath()
+        if (cornerRadius == 0) {
+            context?.addRect(rect)
+        } else {
+            context?.saveGState()
+            context?.translateBy(x: rect.minX, y: rect.minY)
+            context?.scaleBy(x: cornerRadius, y: cornerRadius)
+            let fw = rect.size.width / cornerRadius
+            let fh = rect.size.height / cornerRadius
+            context?.move(to: CGPoint(x: fw, y: fh/2))
+            context?.addArc(tangent1End: CGPoint(x: fw, y: fh), tangent2End: CGPoint(x: fw/2, y: fh), radius: 1)
+            context?.addArc(tangent1End: CGPoint(x: 0, y: fh), tangent2End: CGPoint(x: 0, y: fh/2), radius: 1)
+            context?.addArc(tangent1End: CGPoint(x: 0, y: 0), tangent2End: CGPoint(x: fw/2, y: 0), radius: 1)
+            context?.addArc(tangent1End: CGPoint(x: fw, y: 0), tangent2End: CGPoint(x: fw, y: fh/2), radius: 1)
+            context?.restoreGState()
+        }
+        context?.closePath()
+        context?.clip()
+        
+        context?.draw(_cgImage, in: rect)
+        if let image = context?.makeImage() {
+            UIGraphicsEndImageContext()
+            return UIImage(cgImage: image, scale:scale, orientation: .up)
+        }
+        UIGraphicsEndImageContext()
+        return nil
+    }
+```
+#### 如何给图片添加Border
+这个真的是很常用的，我们经常看到一些比如头像的话有一个边框，那么这个开源库提供的方法就可以轻易为我们的图片添加边框，而免去了让设计师作图了。
+来看下具体实现吧：
+1. 准备参数，创建CGContext
+2. 设置border相关
+3. 将border应用到image上，主要是通过添加inset和strokeEllipse(in: inset)来做。
+具体代码如下：(代码比较长)
+```swift
+func apply(border: CGFloat, color: UIColor) -> UIImage? {
+    UIGraphicsBeginImageContextWithOptions(size, false, 0)
+    guard let _cgImage = cgImage else {
+        return nil
+    }
+    let width = _cgImage.width
+    let height = _cgImage.height
+    let bits = _cgImage.bitsPerComponent
+    guard let colorSpace = _cgImage.colorSpace else {
+        return nil
+    }
+    let bitmapInfo = _cgImage.bitmapInfo
+    let context = CGContext(data: nil, width: width, height: height, bitsPerComponent: bits, bytesPerRow: 0, space: colorSpace, bitmapInfo: bitmapInfo.rawValue)
+    var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0, alpha: CGFloat = 0
+    color.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+        
+    context?.setStrokeColor(red: red, green: green, blue: blue, alpha: alpha)
+    context?.setLineWidth(border)
+        
+    let rect = CGRect(x: 0, y: 0, width: size.width*scale, height: size.height*scale)
+    let inset = rect.insetBy(dx: border*scale, dy: border*scale)
+        
+    context?.strokeEllipse(in: inset)
+    context?.draw(_cgImage, in: inset)
+    if let image = context?.makeImage() {
+        UIGraphicsEndImageContext()
+        return UIImage(cgImage: image)
+    }
+    UIGraphicsEndImageContext()
+    return nil
+}
+```
+#### 添加Image Effects效果
+虽然iOS 7系统以后也提供了Effects效果，不过那个往往实现的和设计师的总是有点偏差。作者在这里提供了五种添加Image Effects方法，一种实现方法，四种不同默认实现方法。来看看他做了什么吧。
+
+> 参考：https://github.com/melvitax/ImageHelper
