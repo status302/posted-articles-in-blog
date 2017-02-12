@@ -47,4 +47,4 @@ extension String {
 ```
 具体涉及到如何在`textFiled`或者`textView`中去做限制字符操作请参考：
 - http://www.jianshu.com/p/2d1c06f2dfa4
-- [代码地址(以Playground形式)]()
+- [代码地址(以Playground形式)](https://github.com/qiuncheng/posted-articles-in-blog/tree/master/Demos/Emotions.playground)
