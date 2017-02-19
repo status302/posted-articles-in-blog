@@ -136,7 +136,7 @@
 其实很简单，只需要调用`captureSession.startRunning()`即可。
 停止的话也只需要调用`captureSession.stopRunning()`方法。
 
---- 
+#### 第二步，去识别
 以上是相机相关，下面简单介绍下如何去读取。主要用到`AVCaptureMetadataOutputObjectsDelegate`的代理方法`func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!)`
 具体实现如下：
 ```Swift
@@ -259,8 +259,13 @@ if let podfileCGImage = image?.cgImage {
 #### 扫描UI界面及动画
 这个感觉So easy吧, 不过需要注意下动画的remove就可以啦
 
+## 几点注意
+- [rectOfInterest]()
+- iOS10申请权限
+- iOS8 上CIContext消息传递问题
+
 ## 参考及链接
 - [左耳朵耗子大叔的『二维码的生成细节和原理』](http://coolshell.cn/articles/10590.html)
 - [串哥的这篇『再见ZXing 使用系统原生代码处理QRCode』](http://adad184.com/2015/09/30/goodbye-zxing/)
-- [代码s在GitHub上]()
+- [代码在GitHub上]()
 - [『CIContext initWithOptions:』: unrecognized selector sent to instance xxxx](http://stackoverflow.com/questions/39570644/cicontext-initwithoptions-unrecognized-selector-sent-to-instance-0x170400960)
