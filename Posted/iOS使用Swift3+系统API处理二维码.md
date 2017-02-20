@@ -270,5 +270,6 @@ if let podfileCGImage = image?.cgImage {
 ## 参考及链接
 - [左耳朵耗子大叔的『二维码的生成细节和原理』](http://coolshell.cn/articles/10590.html)
 - [串哥的这篇『再见ZXing 使用系统原生代码处理QRCode』](http://adad184.com/2015/09/30/goodbye-zxing/)
-- [代码在GitHub上]()
+- [代码在GitHub上](https://github.com/qiuncheng/posted-articles-in-blog/tree/master/Demos/QRCodeDemo)
+    代码风格不太好，所以如果看起来不舒服，请谅解。
 - [『CIContext initWithOptions:』: unrecognized selector sent to instance xxxx](http://stackoverflow.com/questions/39570644/cicontext-initwithoptions-unrecognized-selector-sent-to-instance-0x170400960)
