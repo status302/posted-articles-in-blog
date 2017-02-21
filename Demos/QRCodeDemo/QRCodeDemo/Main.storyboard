@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -23,8 +22,23 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GDU-7D-OLX">
-                                <rect key="frame" x="36" y="90" width="303" height="437"/>
+                                <rect key="frame" x="36" y="90" width="303" height="448"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="layer.shadowColor">
+                                        <color key="value" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="size" keyPath="layer.shadowOffset">
+                                        <size key="value" width="5" height="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.shadowRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                </userDefinedRuntimeAttributes>
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gZh-z6-395">
                                 <rect key="frame" x="58" y="240" width="260" height="260"/>
@@ -49,25 +63,33 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="以上为生成的『二维码』" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mzF-Bq-SdB">
+                                <rect key="frame" x="104" y="508" width="169" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" red="0.43529412150000002" green="0.4431372583" blue="0.47450980539999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.15521918402777779" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="GDU-7D-OLX" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="26" id="0AB-IJ-RYn"/>
                             <constraint firstItem="gZh-z6-395" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="33O-zP-AfU"/>
                             <constraint firstItem="Ktp-EH-BGX" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="5Tt-R6-IcS"/>
                             <constraint firstItem="dFp-zT-TN3" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="50" id="FYt-sm-3jD"/>
                             <constraint firstItem="dFp-zT-TN3" firstAttribute="width" secondItem="Ktp-EH-BGX" secondAttribute="width" id="GbV-FB-ehU"/>
                             <constraint firstItem="Ktp-EH-BGX" firstAttribute="top" secondItem="dFp-zT-TN3" secondAttribute="bottom" constant="18" id="HEX-Fs-1t8"/>
-                            <constraint firstAttribute="bottom" secondItem="GDU-7D-OLX" secondAttribute="bottom" constant="140" id="QSD-qq-SnK"/>
-                            <constraint firstItem="GDU-7D-OLX" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="20" id="a6M-hj-4D9"/>
-                            <constraint firstItem="GDU-7D-OLX" firstAttribute="centerX" secondItem="dFp-zT-TN3" secondAttribute="centerX" id="dNm-NF-8mC"/>
+                            <constraint firstItem="mzF-Bq-SdB" firstAttribute="centerX" secondItem="gZh-z6-395" secondAttribute="centerX" id="XIY-8D-wII"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="GDU-7D-OLX" secondAttribute="bottom" constant="129" id="Zmm-qu-Hyh"/>
                             <constraint firstItem="Ktp-EH-BGX" firstAttribute="width" secondItem="gZh-z6-395" secondAttribute="width" id="e0A-Ws-Vck"/>
                             <constraint firstItem="gZh-z6-395" firstAttribute="top" secondItem="Ktp-EH-BGX" secondAttribute="bottom" constant="48" id="elB-6z-WqJ"/>
-                            <constraint firstItem="GDU-7D-OLX" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="26" id="f6N-eu-hgq"/>
                             <constraint firstItem="dFp-zT-TN3" firstAttribute="centerX" secondItem="Ktp-EH-BGX" secondAttribute="centerX" id="rxo-Nq-5Fv"/>
+                            <constraint firstItem="mzF-Bq-SdB" firstAttribute="top" secondItem="gZh-z6-395" secondAttribute="bottom" constant="8" id="xZD-RC-Mrj"/>
+                            <constraint firstItem="GDU-7D-OLX" firstAttribute="centerX" secondItem="dFp-zT-TN3" secondAttribute="centerX" id="zH4-B7-FR3"/>
+                            <constraint firstItem="GDU-7D-OLX" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="20" id="zKI-No-7ME"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="主页" id="2A2-GS-1cJ">
-                        <barButtonItem key="leftBarButtonItem" title="二维码" id="IWV-Mg-NXQ">
+                        <barButtonItem key="leftBarButtonItem" title="扫描二维码" id="IWV-Mg-NXQ">
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <segue destination="P4Z-Iw-nHX" kind="show" id="U4s-gq-jzV"/>

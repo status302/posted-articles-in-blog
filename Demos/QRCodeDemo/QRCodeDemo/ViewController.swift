@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SafariServices
 
 class ViewController: UIViewController {
 
@@ -32,24 +33,41 @@ class ViewController: UIViewController {
     }
 
     func detecteQRCode(gesture: UILongPressGestureRecognizer) {
-        guard gesture.state == .ended else { return }
+        guard gesture.state == .began else { return }
         
-        func detect() {
-            guard let image = imageView.image else { return }
+        let detect: ((UIAlertAction) -> Void)? = { [weak self] _ in
+            guard let image = self?.imageView.image else { return }
             YLDetectQRCode.scanQRCodeFromPhotoLibrary(image: image) { (result) in
                 guard let _result = result else { return }
                 QRScanCommon.playSound()
-                print(_result)
+                if _result.hasPrefix("http") {
+                    if let url = URL.init(string: _result) {
+                        let sfVC = SFSafariViewController(url: url)
+                        self?.present(sfVC, animated: true, completion: nil)
+                    }
+                }
+                else {
+                    showAlertView(title: "二维码结果", message: _result, cancelButtonTitle: "确定")
+                }
             }
         }
+
+        let saveQRCode: ((UIAlertAction) -> Void)? = { [weak self] _ in
+            guard let image = self?.imageView.image else { return }
+            UIImageWriteToSavedPhotosAlbum(image, self, #selector(ViewController.image(image:error:contextInfo:)), nil)
+        }
         
-        let alertController = UIAlertController(title: "", message: "", preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: "识别二维码", style: .default, handler: { (action) in
-            detect()
-        }))
+        let alertController = UIAlertController(title: "请选择", message: nil, preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: "识别二维码", style: .default, handler: detect))
+        alertController.addAction(UIAlertAction.init(title: "保存二维码", style: .default, handler: saveQRCode))
         alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
         present(alertController, animated: true, completion: nil)
        
+    }
+
+    //  - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo;
+    func image(image: UIImage, error: Error, contextInfo: Any) {
+        showAlertView(title: "提醒", message: "保存图片成功", cancelButtonTitle: "确定")
     }
     
     @IBAction func generateQRCodeButtonClicked(_ sender: Any?) {

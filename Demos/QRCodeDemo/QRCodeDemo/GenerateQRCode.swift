@@ -23,7 +23,7 @@ struct GenerateQRCode {
         if let ciImage = qrFilter?.outputImage {
         
             let size = CGSize(width: 260, height: 260)
-            let context = CIContext(options: nil)
+            let context = CIContext.vs_context(options: nil)
             var cgImage = context.createCGImage(ciImage, from: ciImage.extent)
             
             UIGraphicsBeginImageContext(size)

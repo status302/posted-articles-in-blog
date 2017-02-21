@@ -127,14 +127,11 @@ class QRScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
             guard let strongSelf = self else { return }
             switch strongSelf.setupResult {
             case .successed:
-                strongSelf.activityView?.stopAnimating()
-                strongSelf.view.addSubview(strongSelf.dimmingView!)
-                strongSelf.view.addSubview(strongSelf.selectPhotosButton)
                 if strongSelf.isFirstPush {
                     strongSelf.startSessionRunning()
                 }
             default:
-                strongSelf.activityView?.stopAnimating()
+//                strongSelf.activityView?.stopAnimating()
                 let message = "没有权限获取相机"
                 let	alertController = UIAlertController(title: "", message: message, preferredStyle: .alert)
                 alertController.addAction(UIAlertAction(title: "好", style: .cancel, handler: nil))
@@ -143,9 +140,13 @@ class QRScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
                 }))
                 strongSelf.present(alertController, animated: true, completion: nil)
             }
+            strongSelf.activityView?.stopAnimating()
+            strongSelf.view.addSubview(strongSelf.dimmingView!)
+            strongSelf.view.addSubview(strongSelf.selectPhotosButton)
+
         }
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         stopSessionRunning()
@@ -272,8 +273,7 @@ extension QRScanViewController: UIImagePickerControllerDelegate, UINavigationCon
                 }
                 else {
                     self?.isFirstPush = false
-                    let alertView = UIAlertView(title: "提醒", message: "没有二维码", delegate: nil, cancelButtonTitle: "取消", otherButtonTitles: "确定")
-                    alertView.show()
+                    showAlertView(title: "提醒", message: "没有二维码", cancelButtonTitle: "确定")
                 }
             }
         }

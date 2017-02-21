@@ -14,19 +14,24 @@ class ResultViewController : QRScanViewController {
     override var resultString: String? {
         didSet {
             DispatchQueue.safeMainQueue { [weak self] in
-                if let result = self?.resultString {
-                    if result.hasPrefix("http") {
-                        if let url = URL.init(string: result) {
-                            let sfViewController = SFSafariViewController(url: url)
-                            self?.present(sfViewController, animated: true, completion: nil)
-                        }
-                    }
-                    else {
-                        let alertView = UIAlertView.init(title: "二维码结果", message: result, delegate: nil, cancelButtonTitle: "确定")
-                        alertView.show()
-                    }
+                if let result = self?.resultString,
+                    result.hasPrefix("http") {
+                    self?.showSF(urlStr: result)
+                }
+                else {
+                    showAlertView(title: "二维码结果", message: self?.resultString ?? "nil", cancelButtonTitle: "确定")
                 }
             }
+        }
+    }
+
+    func showSF(urlStr: String?) {
+        guard let urlString = urlStr else {
+            return
+        }
+        if let url = URL.init(string: urlString) {
+            let viewController = SFSafariViewController(url: url)
+            self.present(viewController, animated: true, completion: nil)
         }
     }
 

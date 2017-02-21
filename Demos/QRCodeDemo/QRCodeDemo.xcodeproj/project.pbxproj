@@ -16,10 +16,11 @@
 		86806EB71E5B2E07003E2A2F /* DimmingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86806EAF1E5B2E07003E2A2F /* DimmingView.swift */; };
 		86806EB81E5B2E07003E2A2F /* GenerateQRCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86806EB01E5B2E07003E2A2F /* GenerateQRCode.swift */; };
 		86806EB91E5B2E07003E2A2F /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86806EB11E5B2E07003E2A2F /* ResultViewController.swift */; };
-		86806EBA1E5B2E07003E2A2F /* QRScanCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86806EB21E5B2E07003E2A2F /* QRScanCommon.swift */; };
+		86806EBA1E5B2E07003E2A2F /* QRCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86806EB21E5B2E07003E2A2F /* QRCommon.swift */; };
 		86806EBB1E5B2E07003E2A2F /* QRScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86806EB31E5B2E07003E2A2F /* QRScanViewController.swift */; };
 		86806EBD1E5B2E81003E2A2F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86806EBC1E5B2E81003E2A2F /* Main.storyboard */; };
 		86806EBF1E5B3B22003E2A2F /* qrcode_found.wav in Resources */ = {isa = PBXBuildFile; fileRef = 86806EBE1E5B3B22003E2A2F /* qrcode_found.wav */; };
+		86E57EAF1E5C862D00B59C0E /* CIContext+vs.m in Sources */ = {isa = PBXBuildFile; fileRef = 86E57EAE1E5C862D00B59C0E /* CIContext+vs.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,10 +47,13 @@
 		86806EAF1E5B2E07003E2A2F /* DimmingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DimmingView.swift; sourceTree = "<group>"; };
 		86806EB01E5B2E07003E2A2F /* GenerateQRCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenerateQRCode.swift; sourceTree = "<group>"; };
 		86806EB11E5B2E07003E2A2F /* ResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
-		86806EB21E5B2E07003E2A2F /* QRScanCommon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRScanCommon.swift; sourceTree = "<group>"; };
+		86806EB21E5B2E07003E2A2F /* QRCommon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRCommon.swift; sourceTree = "<group>"; };
 		86806EB31E5B2E07003E2A2F /* QRScanViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRScanViewController.swift; sourceTree = "<group>"; };
 		86806EBC1E5B2E81003E2A2F /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		86806EBE1E5B3B22003E2A2F /* qrcode_found.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = qrcode_found.wav; sourceTree = "<group>"; };
+		86E57EAC1E5C862D00B59C0E /* QRCodeDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "QRCodeDemo-Bridging-Header.h"; sourceTree = "<group>"; };
+		86E57EAD1E5C862D00B59C0E /* CIContext+vs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CIContext+vs.h"; sourceTree = "<group>"; };
+		86E57EAE1E5C862D00B59C0E /* CIContext+vs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CIContext+vs.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,13 +101,16 @@
 				86806EAF1E5B2E07003E2A2F /* DimmingView.swift */,
 				86806EB01E5B2E07003E2A2F /* GenerateQRCode.swift */,
 				86806EB11E5B2E07003E2A2F /* ResultViewController.swift */,
-				86806EB21E5B2E07003E2A2F /* QRScanCommon.swift */,
+				86806EB21E5B2E07003E2A2F /* QRCommon.swift */,
 				86806EB31E5B2E07003E2A2F /* QRScanViewController.swift */,
 				86806E8C1E5B2DE2003E2A2F /* AppDelegate.swift */,
+				86E57EAD1E5C862D00B59C0E /* CIContext+vs.h */,
+				86E57EAE1E5C862D00B59C0E /* CIContext+vs.m */,
 				86806E931E5B2DE2003E2A2F /* Assets.xcassets */,
 				86806EBC1E5B2E81003E2A2F /* Main.storyboard */,
 				86806E951E5B2DE2003E2A2F /* LaunchScreen.storyboard */,
 				86806E981E5B2DE2003E2A2F /* Info.plist */,
+				86E57EAC1E5C862D00B59C0E /* QRCodeDemo-Bridging-Header.h */,
 			);
 			path = QRCodeDemo;
 			sourceTree = "<group>";
@@ -168,6 +175,7 @@
 					86806E881E5B2DE2003E2A2F = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 57EP4P69NV;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
 					86806E9C1E5B2DE2003E2A2F = {
@@ -223,7 +231,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				86806EBA1E5B2E07003E2A2F /* QRScanCommon.swift in Sources */,
+				86E57EAF1E5C862D00B59C0E /* CIContext+vs.m in Sources */,
+				86806EBA1E5B2E07003E2A2F /* QRCommon.swift in Sources */,
 				86806EB81E5B2E07003E2A2F /* GenerateQRCode.swift in Sources */,
 				86806EB61E5B2E07003E2A2F /* DetectQRCode.swift in Sources */,
 				86806EBB1E5B2E07003E2A2F /* QRScanViewController.swift in Sources */,
@@ -359,12 +368,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 57EP4P69NV;
 				INFOPLIST_FILE = QRCodeDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.vsccw.QRCodeDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "QRCodeDemo/QRCodeDemo-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -373,12 +385,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 57EP4P69NV;
 				INFOPLIST_FILE = QRCodeDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.vsccw.QRCodeDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "QRCodeDemo/QRCodeDemo-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

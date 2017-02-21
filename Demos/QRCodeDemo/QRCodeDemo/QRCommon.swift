@@ -22,8 +22,7 @@ extension DispatchQueue {
 struct QRScanCommon {
     static func playSound() {
         guard let filePath = Bundle.main.path(forResource: "qrcode_found", ofType: "wav") else {
-            let alertView = UIAlertView(title: "提醒", message: "找不到音频文件", delegate: nil, cancelButtonTitle: "取消", otherButtonTitles: "确定")
-            alertView.show()
+            showAlertView(title: "提醒", message: "找不到音频文件", cancelButtonTitle: "确定")
             return
         }
         let soundURL = URL(fileURLWithPath: filePath)
@@ -33,4 +32,10 @@ struct QRScanCommon {
         AudioServicesPlaySystemSound(soundID)
         AudioServicesRemoveSystemSoundCompletion(soundID)
     }
+}
+
+func showAlertView(title: String, message: String, cancelButtonTitle: String) {
+    let alertController = UIAlertController.init(title: title, message: message, preferredStyle: .alert)
+    alertController.addAction(UIAlertAction.init(title: cancelButtonTitle, style: .cancel, handler: nil))
+    UIApplication.shared.keyWindow?.rootViewController?.present(alertController, animated: true, completion: nil)
 }
