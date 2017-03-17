@@ -1,4 +1,4 @@
-# posted-articles-in-blog
+# Articles were posted in my blog: https://vsccw.com
 
 1. [是的，我不是很忙 - 2017-01-06](https://vsccw.com/2017/01/06/shi-de-wo-bu-shi-hen-mang/)
 2. [如何阅读开源代码 - 2017-01-15](https://vsccw.com/2017/01/15/ru-he-yue-du-kai-yuan-dai-ma/)
