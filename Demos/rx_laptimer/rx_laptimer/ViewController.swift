@@ -33,9 +33,6 @@ class ViewController: UIViewController {
           print("\(msecs)00ms")
         })
         .addDisposableTo(bag)
-//        timer.subscribeNext({ msecs -> Void in
-//            print("\(msecs)00ms")
-//        }).addDisposableTo(bag)
       
         //wire the chrono
         timer.map(stringFromTimeInterval)
@@ -49,11 +46,6 @@ class ViewController: UIViewController {
             })
             .shareReplay(1)
         
-        //show laps in table
-//        lapsSequence.bindTo(tableView.rx.itemsWithCellIdentifier("Cell", cellType: UITableViewCell.self)) { (row, element, cell) in
-//            cell.textLabel!.text = "\(row+1)) \(element)"
-//        }
-//        .addDisposableTo(bag)
       lapsSequence
         .bindTo(tableView.rx.items(cellIdentifier: "Cell", cellType: UITableViewCell.self)) { (row, element, cell) in
         cell.textLabel?.text = "\(row + 1)) \(element)"
