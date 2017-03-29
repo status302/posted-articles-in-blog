@@ -14,11 +14,10 @@
 `o---- (play tap) true--- (stop tap) false --- (play tap) true --->`  
 所以在`viewDidLoad`的顶部，我创建了一个新的`Observable`, 像这样:  
 ```
-let isRunning = [btnPlay.rx.tap.map({_ in true}), btnStop.rx.tap.map({_ in false})]
-    .toObservable()
-    .merge()
-    .startWith(false)
-    .shareReplayLatestWhileConnected()
+let isRunning = Observable
+      .merge([btnPlay.rx.tap.map({ return true }), btnStop.rx.tap.map({ return false })])
+      .startWith(false)
+      .shareReplayLatestWhileConnected()
 ```
 首先，我将`btnPlay`上的点击转换成`true`, 同时`btnStop`上的点击转换成`false`，然后将它们两合并。  
 `Observable`是以一个`false`开始，为用户提供方便启动计时器的机会。  
@@ -47,7 +46,7 @@ isntRunning.bindTo(btnPlay.rx_enabled).addDisposableTo(bag)
 我研究了一下定时器的`RxSwift`具体实现，但是没有找到一种方式来暂停它(我猜，它无法实现这种状态，谁知道呢？)，这就是为什么我以为我会将定时器直接绑定到`UI`,并实现自己的计数器。  
 当时我的计时器看起来是这样的：  
 ```
-timer = Observable<NSInteger>.interval(0.1, scheduler: MainScheduler.instance)
+timer = Observable<Int>.interval(0.1, scheduler: MainScheduler.instance)
 ```
 嗯，我想，我只需要以某种方式组合`isRunning`和定时器，并在`isRunning`为`false`时过滤可观察的输出。  
 所以我做了以下操作：我添加到现有的计时器一个运算符来结合它与最新的`isRunning`值：  
@@ -70,7 +69,7 @@ timer = Observable<NSInteger>.interval(0.1, scheduler: MainScheduler.instance)
 ```
 为了完整代码，我增强了`timer Observable`, 如下所示：
 ```
-timer = Observable<NSInteger>.interval(0.1, scheduler: MainScheduler.instance)
+timer = Observable<Int>.interval(0.1, scheduler: MainScheduler.instance)
     .withLatestFrom(isRunning, resultSelector: {_, running in running})
     .filter({running in running})
     .scan(0, accumulator: {(acc, _) in
