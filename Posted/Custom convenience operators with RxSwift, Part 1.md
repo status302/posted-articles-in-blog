@@ -84,7 +84,7 @@ count.replaceWithDate()
 ```
 这是结果（等待几秒钟可以看到数字在增加）：  
 ![](http://rx-marin.com/images/latest-date.gif)
-### negate()：取消元素的值
+### negate()：对元素的值取反
 接下来我注意到有时我需要将一个`Observable`绑定到一个按钮的`rx.enabled`属性，有时候要绑定到`rx.hidden`。在编写绑定代码时，我不得不使用许多`map {value in！value}`，这使得我的代码很难以阅读。  
 > 如果你查看了上周的文章，你将看到，为了提高可读性，我最终有两个可观察值：一个称为`isRunning`，另一个`"isntRunning"`。  
 
@@ -102,7 +102,7 @@ Sweet - 感谢协议扩展与相关类型！现在我可以很容易地编写代
 active.bindTo(btnStart.rx.enabled).addDisposableTo(bag)
 active.negate().bindTo(btnStart.rx.hidden).addDisposableTo(bag)
 ```
-当代码发出`true`元素时，此代码将同时启用和显示该按钮。Pretty sleek eh?    
+当活跃的`Observable`发出`true`元素时，此代码将同时启用和显示该按钮。Pretty sleek eh?    
 今天文章中的代码，我稍后会添加到我的项目中：  
 ```
 extension Observable where Element : SignedIntegerType {
