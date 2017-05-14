@@ -10,3 +10,4 @@
 8. [使用RxSwift和RxCocoa拆分计时器(一) - 2017-03-21](https://vsccw.com/2017/03/21/rxswift-split-laps-timer/)
 9. [[译] 使用RxSwift和RxCocoa拆分计时器(二) - 2017-03-29](https://vsccw.com/2017/03/29/rxswift-split-laps-timer-02/)
 10. [[译] 使用RxSwift自定义convenience operators (一) - 2017-04-04](https://vsccw.com/2017/04/04/rxswift-custom-convenience-operators-01/)
+11. [[译] 使用RxSwift自定义convenience operators (二)](https://vsccw.com/2017/05/12/rxswift-custom-convenience-operators-02/)
