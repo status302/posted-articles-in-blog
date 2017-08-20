@@ -84,7 +84,7 @@ class ViewController: UIViewController {
     let lapsSequence = timer
       .sample(btnLap.rx.tap)
       .map(stringFromTimeInterval)
-      .scan([String](), accumulator: {lapTimes, newTime in
+      .scan([String](), accumulator: { lapTimes, newTime in
         return lapTimes + [newTime]
       })
       .shareReplayLatestWhileConnected()
