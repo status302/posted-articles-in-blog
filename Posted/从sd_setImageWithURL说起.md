@@ -1,4 +1,4 @@
-大多数使用`SDWebImage`的APP，都是在直接使用`sd_setImageWithURL:`系列方法。而且我们在使用SDWebImage的时候，大多数情况下只需要导入`#import "UIImageView+WebCache.h"`就OK啦，所以在分析SDWebImage这个开源库的开头，我打算以`sd_setImageWithURL:`开始。
+大多数使用`SDWebImage`的APP，都是在直接使用`sd_setImageWithURL:`系列方法。而且我们在使用SDWebImage的时候，大多数情况下只需要导入`#import "UIImageView+WebCache.h"`就OK啦，所以在分析SDWebImage这个开源库的开头，我打算以`sd_setImageWithURL:`开始。本系列文章将在`3.7.2`版本之上进行分析:
 ### sd_setImageWithURL具体是什么
 以前在使用SD的时候，其实并没有注意，原来作者帮我们提供了**7**种`sd_setImageWithURL:`便利方法。在这7中便利方法中,有三种是不包含`completion`回调的,有四种是包含`completion`回调的.今天我们先不谈这些便利方法的使用,毕竟就是一两行代码的事情。不过点击方法进去就可以看到所有的方法都调用了一个方法，这个方法就如下图所示：
 ![](https://github.com/qiuncheng/posted-articles-in-blog/blob/master/images/sd_setImageWithURL.jpeg?raw=true)
